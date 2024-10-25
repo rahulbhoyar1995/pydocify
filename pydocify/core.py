@@ -1,13 +1,15 @@
 import os
 import re
+from pathlib import Path
 from dotenv import load_dotenv, find_dotenv
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
+from tqdm import tqdm
 
 # Load environment variables from a .env file
 _ = load_dotenv(find_dotenv())
 
-def add_doc_to_python_file(file_path):
+def add_doc_to_python_file(file_path: Path):
     """
     Adds documentation to a specified Python file by invoking a language model.
 
@@ -16,7 +18,7 @@ def add_doc_to_python_file(file_path):
     It also archives the original file.
 
     Parameters:
-    file_path (str): The path to the Python file to be documented.
+    file_path (Path): The path to the Python file to be documented.
 
     Returns:
     None
@@ -35,8 +37,7 @@ def add_doc_to_python_file(file_path):
 
     try:
         # Read the existing code from the file
-        with open(file_path, "r") as file:
-            python_file_content = file.read()
+        python_file_content = file_path.read_text()
     except FileNotFoundError:
         print(f"Error: The file '{file_path}' was not found.")
         return
@@ -74,17 +75,16 @@ def add_doc_to_python_file(file_path):
     updated_content = re.sub(r'^```.*|```$', '', updated_content, flags=re.MULTILINE).strip()
 
     # Rename the original file to "file_name_archive.py"
-    archive_file_path = f"{file_path.rsplit('.', 1)[0]}_archive.py"
+    archive_file_path = file_path.with_name(f"{file_path.stem}_doc_archive.py")
     try:
-        os.rename(file_path, archive_file_path)
+        file_path.rename(archive_file_path)
     except IOError as e:
         print(f"Error renaming the file '{file_path}': {e}")
         return
 
     # Write the updated content to a new file with the original file name
     try:
-        with open(file_path, "w") as file:
-            file.write(updated_content)
+        file_path.write_text(updated_content)
     except IOError as e:
         print(f"Error writing to the file '{file_path}': {e}")
         return
@@ -92,4 +92,57 @@ def add_doc_to_python_file(file_path):
     print(f"Original file renamed to '{archive_file_path}'.")
     print(f"Documentation added and file '{file_path}' has been updated with the new content.")
 
-add_doc_to_python_file("test.py")
+class DirectoryStringGenerator:
+    def __init__(self):
+        pass
+    
+    def generate(directory_path: str):
+        """
+        Finds and documents all Python files in a specified directory and its subdirectories.
+
+        Parameters:
+        directory (Path): The path to the directory to search for Python files.
+
+        Returns:
+        None
+        """
+        directory = Path(directory_path)
+        python_files = []
+
+        # Walk through the directory to find all .py files
+        for file_path in directory.rglob('*.py'):
+            python_files.append(file_path)
+
+        total_files = len(python_files)
+        print(f"Total Python files found: {total_files}")
+
+        # Process each Python file with progress tracking
+        for file_path in tqdm(python_files, desc="Adding documentation to Python files..."):
+            add_doc_to_python_file(file_path)
+            
+    def delete_archives(self,directory_path: str):
+        """
+        Deletes all files in the specified directory and its subdirectories
+        that end with '_doc_archive.py'.
+
+        Parameters:
+        directory (Path): The path to the directory to search for archive files.
+
+        Returns:
+        None
+        """
+        directory = Path(directory_path)
+        # Find all files that end with '_doc_archive.py'
+        archive_files = list(directory.rglob('*_doc_archive.py'))
+
+        total_files = len(archive_files)
+        print(f"Total archive files found: {total_files}")
+
+        # Delete each file and show progress
+        for file_path in tqdm(archive_files, desc="Deleting archives files...."):
+            try:
+                file_path.unlink()  # Delete the file
+                print(f"Deleted: {file_path}")
+            except Exception as e:
+                print(f"Error deleting file {file_path}: {e}")
+

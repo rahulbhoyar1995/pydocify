@@ -109,7 +109,7 @@ class DirectoryStringGenerator:
     def __init__(self):
         pass
     
-    def generate(directory_path: str):
+    def generate(self,directory_path: str):
         """
         Finds and documents all Python files in a specified directory and its subdirectories.
 

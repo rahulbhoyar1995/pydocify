@@ -10,20 +10,20 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="pydocify",
-    version="0.1.2",
+    version="0.1.6",
     description="LLM-based library to auto-generate docstrings for Python scripts and modules.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Rahul Bhoyar",
     author_email="rahulbhoyaroffice@gmail.com",
     url="https://github.com/rahulbhoyar1995/pydocify.git",
-    packages=find_packages(),
+    packages=find_packages(include=["pydocify", "pydocify.*"]),  # Include your package
     install_requires=required_packages,
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.8",
+    python_requires=">=3.6",
     include_package_data=True,  # Ensures additional files like requirements.txt are included
 )

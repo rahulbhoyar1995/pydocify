@@ -35,16 +35,6 @@ Use delete_archives to remove any archive files created during the documentation
 doc_generator.delete_archives("/path/to/your/directory")
 ```
 
-#### 3. Adding Documentation to Python Files
-To automatically generate documentation for a specific Python file:
-
-```bash
-from pydocify.core import add_doc_to_python_file
-from pathlib import Path
-
-add_doc_to_python_file(Path("your_script.py"))
-```
-
 ### Requirements
 Ensure that you have your OPENAI_API_KEY set up as an environment variable in a .env file.
 

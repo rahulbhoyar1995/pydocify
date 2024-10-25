@@ -1,0 +1,7 @@
+jupyter
+matplotlib
+pandas
+scikit-learn
+langchain_openai
+langchain_core
+python-dotenv

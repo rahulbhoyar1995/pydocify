@@ -1,9 +1,6 @@
-jupyterlab==4.2.5
-jupyterlab-pygments==0.3.0
-jupyterlab-server==2.27.3
-langchain-core==0.2.41
-langchain-openai==0.1.25
-python-dotenv==1.0.1
-tiktoken==0.7.0
-tqdm==4.66.5
+langchain-core
+langchain-openai
+python-dotenv
+tiktoken
+tqdm
 urllib3==2.2.3

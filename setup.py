@@ -10,7 +10,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="pydocify",
-    version="0.2",
+    version="0.2.1",
     description="pydocify: An LLM-based library that effortlessly auto-generates docstrings for your Python scripts and modules, enhancing code readability with ease.",
     long_description=long_description,
     long_description_content_type="text/markdown",

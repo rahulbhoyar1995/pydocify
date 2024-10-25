@@ -1,3 +1,16 @@
+"""
+pydocify.core - A module for generating and adding docstrings to Python files using a language model (LLM).
+
+This module provides functionality to automatically document Python files by generating docstrings
+with a language model, as well as functionality for handling documentation files and managing archives.
+
+Classes:
+    DirectoryStringGenerator: Handles generating docstrings for all Python files in a specified directory and managing archive files.
+
+Functions:
+    add_doc_to_python_file(file_path: Path): Adds generated documentation to a specified Python file.
+"""
+
 import os
 import re
 from pathlib import Path

@@ -1,10 +1,14 @@
-<img src="assets/pydocify_logo.png" alt="Logo" width="400"> <!-- Set the width to 100 pixels -->
-
 # pydocify - LLM-Based Documentation Generator Library for Python Code
+
+
+![Logo](assets/pydocify_logo.png) <!-- Set the width to 400 pixels -->
+
 
 #### Author : Rahul Bhoyar
 
-`pydocify` is a library that uses a language model (LLM) to generate and add documentation strings (docstrings) for Python scripts, functions, and classes. This is especially useful for maintaining code readability and consistency in projects with minimal documentation.
+### Transform Your Python Code with pydocify!
+
+Unlock the power of documentation with pydocify, an innovative LLM-based library that automatically generates clear and concise docstrings for your Python scripts and modules. Say goodbye to the hassle of writing documentation from scratch! Whether you're maintaining a small project or collaborating on a large codebase, pydocify enhances code readability and consistency, ensuring your functions and classes are well-documented and easy to understand. Elevate your coding experience and keep your projects organized with just a few simple commands!
 
 ### Features
 - Automatically generates docstrings based on code content.

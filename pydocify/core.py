@@ -1,16 +1,3 @@
-"""
-pydocify.core - A module for generating and adding docstrings to Python files using a language model (LLM).
-
-This module provides functionality to automatically document Python files by generating docstrings
-with a language model, as well as functionality for handling documentation files and managing archives.
-
-Classes:
-    DirectoryStringGenerator: Handles generating docstrings for all Python files in a specified directory and managing archive files.
-
-Functions:
-    add_doc_to_python_file(file_path: Path): Adds generated documentation to a specified Python file.
-"""
-
 import os
 import re
 from pathlib import Path
@@ -21,6 +8,7 @@ from tqdm import tqdm
 
 # Load environment variables from a .env file
 _ = load_dotenv(find_dotenv())
+
 
 def add_doc_to_python_file(file_path: Path):
     """
@@ -102,29 +90,37 @@ def add_doc_to_python_file(file_path: Path):
         print(f"Error writing to the file '{file_path}': {e}")
         return
 
-    print(f"Original file renamed to '{archive_file_path}'.")
-    print(f"Documentation added and file '{file_path}' has been updated with the new content.")
+    print(f"Original file renamed to :'{archive_file_path}'.")
+    print(f"Documentation added and file :'{file_path}' has been updated with the new content.")
+
 
 class DirectoryStringGenerator:
     def __init__(self):
-        pass
-    
-    def generate(self,directory_path: str):
+        try:
+            openai_api_key = os.environ["OPENAI_API_KEY"]
+        except KeyError:
+            print("Error: The OPENAI_API_KEY environment variable is not set.")
+            return
+
+    def generate(self, directory_path: str):
         """
-        Finds and documents all Python files in a specified directory and its subdirectories.
+        Finds and documents all Python files in a specified directory and its subdirectories,
+        excluding those in the 'venv' folder.
 
         Parameters:
-        directory (Path): The path to the directory to search for Python files.
+        directory_path (str): The path to the directory to search for Python files.
 
         Returns:
         None
         """
         directory = Path(directory_path)
         python_files = []
-
+        print("Processing...Please wait....")
         # Walk through the directory to find all .py files
         for file_path in directory.rglob('*.py'):
-            python_files.append(file_path)
+            # Ignore files in the 'venv' directory
+            if 'venv' not in file_path.parts:
+                python_files.append(file_path)
 
         total_files = len(python_files)
         print(f"Total Python files found: {total_files}")
@@ -132,8 +128,8 @@ class DirectoryStringGenerator:
         # Process each Python file with progress tracking
         for file_path in tqdm(python_files, desc="Adding documentation to Python files..."):
             add_doc_to_python_file(file_path)
-            
-    def delete_archives(self,directory_path: str):
+
+    def delete_archives(self, directory_path: str):
         """
         Deletes all files in the specified directory and its subdirectories
         that end with '_doc_archive.py'.
@@ -159,3 +155,25 @@ class DirectoryStringGenerator:
             except Exception as e:
                 print(f"Error deleting file {file_path}: {e}")
 
+
+class FileStringGenerator:
+    def __init__(self):
+        try:
+            openai_api_key = os.environ["OPENAI_API_KEY"]
+        except KeyError:
+            print("Error: The OPENAI_API_KEY environment variable is not set.")
+            return
+
+    def generate(self, file_path: str):
+        """
+        Generates documentation for a specified Python file.
+
+        Parameters:
+        file_path (str): The path to the Python file to be documented.
+
+        Returns:
+        None
+        """
+        print("Processing...Please wait....")
+        python_file_path = Path(file_path)
+        add_doc_to_python_file(python_file_path)

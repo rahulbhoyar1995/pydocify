@@ -1,3 +1,5 @@
+<img src="assets/pydocify_logo.png" alt="Logo" width="400"> <!-- Set the width to 100 pixels -->
+
 # pydocify - LLM-Based Documentation Generator Library for Python Code
 
 #### Author : Rahul Bhoyar
@@ -33,6 +35,17 @@ Use delete_archives to remove any archive files created during the documentation
 
 ```bash
 doc_generator.delete_archives("/path/to/your/directory")
+```
+
+
+#### 3. Documenting a Python File 
+Use the FileStringGenerator class to document a Python file at specified path:
+
+```bash
+from pydocify.core import FileStringGenerator
+
+file_doc_generator = FileStringGenerator()
+file_doc_generator.generate("/path/to/your/file")
 ```
 
 ### Requirements
